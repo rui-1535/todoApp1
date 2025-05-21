@@ -1,0 +1,620 @@
+:root {
+    --primary-color: #4a90e2;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --hover-color: #f5f5f5;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --primary-color: #64b5f6;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #404040;
+    --hover-color: #2d2d2d;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--hover-color);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.add-task {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+
+#task-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+#label-select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    min-width: 100px;
+}
+
+#label-select option {
+    padding: 0.5rem;
+}
+
+#add-task-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#add-task-btn:hover {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* ダークモードでの入力フィールド */
+[data-theme="dark"] #task-input,
+[data-theme="dark"] #label-select {
+    background-color: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+[data-theme="dark"] #label-select option {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-label {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-width: 200px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+select:hover {
+    border-color: var(--primary-color);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Dark mode improvements */
+[data-theme="dark"] .filters {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+}
+
+[data-theme="dark"] select {
+    background-color: #1a1a1a;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+[data-theme="dark"] select:hover {
+    border-color: #64b5f6;
+}
+
+[data-theme="dark"] select:focus {
+    border-color: #64b5f6;
+    box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+}
+
+.task-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    padding: 0 1rem;
+    justify-content: center;
+}
+
+.task-group {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 300px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.task-group h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid var(--primary-color);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 3rem;
+}
+
+.task-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 200px;
+    padding: 0.5rem;
+}
+
+.task-item {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    cursor: move;
+    transition: all 0.2s ease;
+    position: relative;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.task-text {
+    font-size: 1.1rem;
+    word-break: break-word;
+    padding-right: 100px;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+    display: block;
+    width: 100%;
+}
+
+.task-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.status-todo {
+    background-color: #ffcdd2;
+    color: #c62828;
+}
+
+.status-in-progress {
+    background-color: #fff9c4;
+    color: #f9a825;
+}
+
+.status-done {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.task-labels {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    z-index: 1;
+}
+
+.task-label {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ラベルの色設定 */
+.task-label[data-label="重要"] {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #c62828;
+}
+
+.task-label[data-label="緊急"] {
+    background-color: #fff8e1;
+    color: #f9a825;
+    border: 1px solid #f9a825;
+}
+
+.task-label[data-label="通常"] {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #1565c0;
+}
+
+/* ダークモードでのラベル色 */
+[data-theme="dark"] .task-label[data-label="重要"] {
+    background-color: #4a1c1c;
+    color: #ff8a8a;
+    border-color: #ff8a8a;
+}
+
+[data-theme="dark"] .task-label[data-label="緊急"] {
+    background-color: #4a3c1c;
+    color: #ffd54f;
+    border-color: #ffd54f;
+}
+
+[data-theme="dark"] .task-label[data-label="通常"] {
+    background-color: #1c3c4a;
+    color: #64b5f6;
+    border-color: #64b5f6;
+}
+
+.delete-btn {
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #ff0000;
+    transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 2rem;
+    }
+
+    .filters {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Animation classes */
+.task-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.task-item.dragging {
+    animation: vibrate 0.2s linear infinite;
+    opacity: 0.8;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.task-item.completed {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* レスポンシブデザインの改善 */
+@media (max-width: 1024px) {
+    .task-groups {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .task-groups {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-group {
+        min-height: 200px;
+    }
+
+    .theme-toggle {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+}
+
+/* Animation improvements */
+.task-group {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 振動アニメーション */
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* 完了メッセージのスタイル */
+.completion-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    text-align: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+}
+
+.completion-message.show {
+    opacity: 1;
+    visibility: visible;
+    animation: popIn 0.5s ease-out;
+}
+
+.completion-message h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.completion-message p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.completion-message button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.completion-message button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* アニメーション */
+@keyframes popIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* タスク追加時のアニメーション */
+.task-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* タスク削除時のアニメーション */
+.task-item.deleting {
+    animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* ステータス変更時のアニメーション */
+.task-item.status-changing {
+    animation: pulse 0.5s ease-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ダークモードでの完了メッセージ */
+[data-theme="dark"] .completion-message {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .completion-message h2 {
+    color: #64b5f6;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.lang-toggle {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--hover-color);
+}
+
+.lang-toggle:hover {
+    transform: scale(1.1);
+    background-color: var(--primary-color);
+    color: white;
+} 
