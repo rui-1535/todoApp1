@@ -7,12 +7,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'background-light': '#F3F4F6',
-        'background-dark': '#1F2937',
-        'text-light': '#1F2937',
-        'text-dark': '#F3F4F6',
-        'primary-light': '#3B82F6',
-        'primary-dark': '#2563EB',
+        primary: {
+          light: '#60A5FA',
+          dark: '#3B82F6',
+        },
+        background: {
+          light: '#FFFFFF',
+          dark: '#1F2937',
+        },
+        text: {
+          light: '#1F2937',
+          dark: '#F9FAFB',
+        }
       },
       animation: {
         'shake': 'shake 0.5s ease-in-out',
