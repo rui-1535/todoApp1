@@ -3,8 +3,9 @@ import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, D
 import { motion, AnimatePresence } from 'framer-motion';
 import { dbPromise } from './db';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import type { TranslationKey } from './contexts/LanguageContext';
 
-type TaskStatus = 'not_started' | 'in_progress' | 'completed';
+type TaskStatus = Extract<TranslationKey, 'not_started' | 'in_progress' | 'completed'>;
 
 interface Task {
   id: number;
@@ -179,9 +180,7 @@ const TodoApp: React.FC = () => {
       className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg"
     >
       <h2 className="text-xl font-semibold mb-4 capitalize">
-        {status === 'not_started' ? '未着手' : 
-         status === 'in_progress' ? '進行中' : 
-         status === 'completed' ? '完了' : status}
+        {t(status as any)}
       </h2>
       {tasks
         .filter(task => task.status === status)
@@ -335,7 +334,7 @@ const TodoApp: React.FC = () => {
                     }`}
                   >
                     <h2 className="text-xl font-semibold mb-4">
-                      {t(status)}
+                      {t(status as any)}
                     </h2>
                     {tasks
                       .filter(task => task.status === status)

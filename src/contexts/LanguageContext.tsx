@@ -2,13 +2,28 @@ import React, { createContext, useState, useContext } from 'react';
 
 type Language = 'ja' | 'en' | 'zh';
 
+export type TranslationKey = 
+  | 'not_started'
+  | 'in_progress'
+  | 'completed'
+  | 'add_task'
+  | 'new_task'
+  | 'title'
+  | 'description'
+  | 'labels'
+  | 'cancel'
+  | 'add'
+  | 'congratulations';
+
+type Translations = Record<Language, Record<TranslationKey, string>>;
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
-const translations = {
+const translations: Translations = {
   ja: {
     'not_started': '未着手',
     'in_progress': '進行中',
@@ -55,8 +70,8 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('ja');
 
-  const t = (key: string): string => {
-    return translations[language][key] || key;
+  const t = (key: TranslationKey): string => {
+    return translations[language][key];
   };
 
   return (
