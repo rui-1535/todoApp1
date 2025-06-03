@@ -2,7 +2,7 @@
   "name": "todo-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yourusername.github.io/todo-app",
+  "homepage": ".",
   "dependencies": {
     "@types/node": "^16.18.126",
     "@types/react": "^18.3.22",

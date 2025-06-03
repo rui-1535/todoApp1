@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided, DraggableStateSnapshot, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import { motion, AnimatePresence } from 'framer-motion';
 import { dbPromise } from './db';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 
 type TaskStatus = 'not_started' | 'in_progress' | 'completed';
 
@@ -29,7 +30,8 @@ const DEFAULT_LABELS: Label[] = [
 
 const TASK_STATUSES: TaskStatus[] = ['not_started', 'in_progress', 'completed'];
 
-const App: React.FC = () => {
+const TodoApp: React.FC = () => {
+  const { t, language, setLanguage } = useLanguage();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [labels, setLabels] = useState<Label[]>(DEFAULT_LABELS);
@@ -149,7 +151,7 @@ const App: React.FC = () => {
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       className={`p-4 mb-2 rounded-lg bg-gray-100 dark:bg-gray-700 cursor-move transition-shadow ${
-        snapshot.isDragging ? 'shadow-lg' : ''
+        snapshot.isDragging ? 'shadow-lg opacity-50' : ''
       }`}
     >
       <h3 className="font-medium">{task.title}</h3>
@@ -177,7 +179,9 @@ const App: React.FC = () => {
       className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg"
     >
       <h2 className="text-xl font-semibold mb-4 capitalize">
-        {status.replace('_', ' ')}
+        {status === 'not_started' ? '未着手' : 
+         status === 'in_progress' ? '進行中' : 
+         status === 'completed' ? '完了' : status}
       </h2>
       {tasks
         .filter(task => task.status === status)
@@ -202,11 +206,37 @@ const App: React.FC = () => {
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Todo App</h1>
           <div className="flex gap-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setLanguage('ja')}
+                className={`px-3 py-1 rounded-lg ${
+                  language === 'ja' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                日本語
+              </button>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-3 py-1 rounded-lg ${
+                  language === 'en' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => setLanguage('zh')}
+                className={`px-3 py-1 rounded-lg ${
+                  language === 'zh' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                中文
+              </button>
+            </div>
             <button
               onClick={() => setIsAddingTask(true)}
               className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors"
             >
-              タスクを追加
+              {t('add_task')}
             </button>
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
@@ -226,30 +256,30 @@ const App: React.FC = () => {
               className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
             >
               <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
-                <h2 className="text-xl font-bold mb-4">新しいタスク</h2>
+                <h2 className="text-xl font-bold mb-4">{t('new_task')}</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">タイトル</label>
+                    <label className="block text-sm font-medium mb-1">{t('title')}</label>
                     <input
                       type="text"
                       value={newTask.title}
                       onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
                       className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-                      placeholder="タスクのタイトル"
+                      placeholder={t('title')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">説明</label>
+                    <label className="block text-sm font-medium mb-1">{t('description')}</label>
                     <textarea
                       value={newTask.description}
                       onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
                       className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-                      placeholder="タスクの説明"
+                      placeholder={t('description')}
                       rows={3}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">ラベル</label>
+                    <label className="block text-sm font-medium mb-1">{t('labels')}</label>
                     <div className="flex flex-wrap gap-2">
                       {labels.map(label => (
                         <button
@@ -277,13 +307,13 @@ const App: React.FC = () => {
                       onClick={() => setIsAddingTask(false)}
                       className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
-                      キャンセル
+                      {t('cancel')}
                     </button>
                     <button
                       onClick={handleAddTask}
                       className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors"
                     >
-                      追加
+                      {t('add')}
                     </button>
                   </div>
                 </div>
@@ -304,43 +334,18 @@ const App: React.FC = () => {
                       snapshot.isDraggingOver ? 'ring-2 ring-blue-500' : ''
                     }`}
                   >
-                    <h2 className="text-xl font-semibold mb-4 capitalize">
-                      {status.replace('_', ' ')}
+                    <h2 className="text-xl font-semibold mb-4">
+                      {t(status)}
                     </h2>
                     {tasks
                       .filter(task => task.status === status)
                       .map((task, index) => (
                         <Draggable
                           key={task.id}
-                          draggableId={String(task.id)}
+                          draggableId={task.id.toString()}
                           index={index}
                         >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`p-4 mb-2 rounded-lg bg-gray-100 dark:bg-gray-700 cursor-move transition-shadow ${
-                                snapshot.isDragging ? 'shadow-lg' : ''
-                              }`}
-                            >
-                              <h3 className="font-medium">{task.title}</h3>
-                              <p className="text-sm opacity-75">{task.description}</p>
-                              <div className="flex flex-wrap gap-2 mt-2">
-                                {task.labels.map(label => (
-                                  <span
-                                    key={label}
-                                    className="px-2 py-1 text-xs rounded-full text-white"
-                                    style={{
-                                      backgroundColor: labels.find(l => l.name === label)?.color || '#E5E7EB'
-                                    }}
-                                  >
-                                    {label}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+                          {(provided, snapshot) => renderTaskCard(provided, snapshot, task)}
                         </Draggable>
                       ))}
                     {provided.placeholder}
@@ -359,12 +364,20 @@ const App: React.FC = () => {
               exit={{ opacity: 0, scale: 0.5 }}
               className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg"
             >
-              おめでとうございます！
+              {t('congratulations')}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <TodoApp />
+    </LanguageProvider>
   );
 };
 

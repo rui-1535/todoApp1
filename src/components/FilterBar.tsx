@@ -38,7 +38,9 @@ const FilterBar: React.FC<FilterBarProps> = ({
                     : 'bg-gray-100 dark:bg-gray-700'
                 }`}
               >
-                {status.replace('_', ' ')}
+                {status === 'not_started' ? '未着手' : 
+                 status === 'in_progress' ? '進行中' : 
+                 status === 'completed' ? '完了' : status}
               </motion.button>
             ))}
           </div>
